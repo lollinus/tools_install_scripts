@@ -1,0 +1,30 @@
+My tools build scripts
+
+This Repository contains scripts for building tools used by me
+
+* Layout
+  All tools are installed within _HOME_ directory.
+  because _HOME_ directory is usually mount through NFS on different
+  machines, architecture and operating system, then there are couple
+  assumptions where apps are installed.
+
+  Machine dependent files are installed within:
+#+BEGIN_SHELL
+  ${HOME}/install/<MACHINE DIR>/
+#+END_SHELL
+
+  Machine independent files are installed within:
+#+BEGIN_SHELL
+  ${HOME}/install/share/
+#+END_SHELL
+
+  Some tools are installed in tool specific directories read more in [[Tools]]
+
+* Tools
+
+** Emacs
+   emacs_build.sh
+
+** Git
+   git_update.sh
+
