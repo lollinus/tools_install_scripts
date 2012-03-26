@@ -18,13 +18,16 @@ This Repository contains scripts for building tools used by me
   ${HOME}/install/share/
 #+END_SHELL
 
-  Some tools are installed in tool specific directories read more in [[Tools]]
+  Some tools are installed in tool specific directories read more in [[#Tools][tools]]
 
-* Tools
+  Some tools are installed from [[#Packages][packages]]
 
+* #Tools
 ** Emacs
    emacs_build.sh
 
 ** Git
    git_update.sh
 
+
+* #Packages
