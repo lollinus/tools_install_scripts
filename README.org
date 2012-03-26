@@ -22,7 +22,8 @@ This Repository contains scripts for building tools used by me
 
   Some tools are installed from [[#Packages][packages]]
 
-* #Tools
+# <<#Tools>>
+* Tools
 ** Emacs
    emacs_build.sh
 
@@ -30,4 +31,5 @@ This Repository contains scripts for building tools used by me
    git_update.sh
 
 
-* #Packages
+# <<#Packages>>
+* Packages
