@@ -27,9 +27,45 @@ This Repository contains scripts for building tools used by me
 ** Emacs
    emacs_build.sh
 
+*** Emacs config
+
+    ssh://git@github.com/lollinus/my-emacs-config
+
+**** Packages
+
+***** AsciiDoc (adoc)
+ssh://git@github.com/matthewmccullough/adoc-mode
+sensorflo-emacs: http://sensorflo-emacs.googlecode.com/svn/trunk
+
+***** magit
+ssh://git@github.com/magit/matig.git
+
+
 ** Git
    git_update.sh
 
+** tmux
+
+   https://tmux.svn.sourceforge.net/svnroot/tmux
+
+Dependencies
+- libevent: uri
+
+** LLVM + Clang
+   http://llvm.org/git/llvm.git
+
+
 
 # <<#Packages>>
+** vim-7.3
+
+http://www.vim.org
+
+mercurial: https://vim.googlecode.com/hg/
+
+ hg clone https://vim.googlecode.com/hg/ vim
+
 * Packages
+
+** SVN
+
