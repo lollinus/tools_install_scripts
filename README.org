@@ -31,6 +31,10 @@ This Repository contains scripts for building tools used by me
 
     ssh://git@github.com/lollinus/my-emacs-config
 
+Dependencies:
+- autoconf-2.68
+- automake-1.11.2
+
 **** Packages
 
 ***** AsciiDoc (adoc)
