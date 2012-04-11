@@ -20,8 +20,8 @@ EXEC_INSTALL="${HOME}/install/RHEL5_$(uname -m)/emacs"
 # check if clone dir exists
 if [ ! -e ${CLONE_DIR} ]; then
     echo "${CLONE_DIR} not exist -> new clone"
-    mkdir -p ${PROJECTS}
-    git clone ${REPOSITORY} ${CLONE_DIR}
+    clone_command="mkdir -p ${PROJECTS}; git clone ${REPOSITORY} ${CLONE_DIR}"
+    eval $clone_command
 elif [ ! -d ${CLONE_DIR} ]; then
     # @TODO handle properly when CLONE_DIR exists but is not an directory
     echo "not a directory ${CLONE_DIR}"
@@ -30,7 +30,8 @@ else
     # @TODO check if we have clone wchich should be pulled
     # right now only pull
     echo "Pull directory"
-    cd ${CLONE_DIR} && git fetch origin && git pull origin master&& ./autogen.sh
+    pull_command="cd ${CLONE_DIR} && git fetch origin && git pull origin master"
+    eval $pull_command
     if [[ 0 -ne $? ]]; then
         echo "Pull failed"
         exit 1;
@@ -38,6 +39,7 @@ else
 fi
 
 # we have updated sources. time to configure.
+cd ${CLONE_DIR} && ./autogen.sh
 rm -rf ${BUILD_DIR}
 mkdir -p ${BUILD_DIR}
 cd ${BUILD_DIR}

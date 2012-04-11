@@ -12,11 +12,10 @@ fi
 #
 # This script updates git working tree. Then builds and installs new release
 # 
-REPOSITORY="https://tmux.svn.sourceforge.net/svnroot/tmux"
-#PACKAGE="http://downloads.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz"
+REPOSITORY="ssh://git@github.com/libevent/libevent.git"
 PROJECTS="${HOME}/projects"
-CLONE_DIR="${PROJECTS}/tmux"
-BUILD_DIR="${PROJECTS}/tmux"
+CLONE_DIR="${PROJECTS}/libevent"
+BUILD_DIR="${PROJECTS}/libevent_build"
 
 SHARED_INSTALL="${HOME}/install/share"
 # todo recognize linux type properly
@@ -29,7 +28,14 @@ function clean_dead_symlinks() {
     find ${EXEC_INSTALL} -type l -not -exec test -r '{}' \; -exec rm '{}' \;
 }
 
-function do_tmux_build() {
+#
+# remove previous install of libevent
+#
+function clean_previous_install() {
+    find ${EXEC_INSTALL} -type f -name 'libevent*' -not -newer ${BUILD_DIR}/config.status -exec rm '{}' \;
+}
+
+function do_libevent_build() {
     mkdir -p ${BUILD_DIR}
     cd ${BUILD_DIR}
     ${CLONE_DIR}/configure --prefix=${SHARED_INSTALL} --exec-prefix=${EXEC_INSTALL} --enable-static
@@ -52,27 +58,28 @@ done
 DOWNLOADED=0
 if [ ${PACKAGE} ]; then
     echo "Downloading package (${PACKAGE})"
-    rm -rf ${PROJECTS}/tmux.tar.gz
-    wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/tmux.tar.gz
+    rm -rf ${PROJECTS}/libevent.tar.gz
+    wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/libevent.tar.gz
     DOWNLOADED=$?
     if [ ${DOWNLOADED} -eq 0 ]; then
         # save last package given from commandline
         echo "PACKAGE=${PACKAGE}" > ${CONFIG}
     fi
 else
-    echo "Package not given"
+    echo "Package not defined"
     exit 1
 fi
 
 if [[ $DOWNLOADED -eq 0 ]]; then
     rm -rf ${CLONE_DIR}
     mkdir -p ${CLONE_DIR}
-    tar xzf ${PROJECTS}/tmux.tar.gz -C ${CLONE_DIR} --strip-components 1
+    tar xzf ${PROJECTS}/libevent.tar.gz -C ${CLONE_DIR} --strip-components 1
 else
     exit ${DOWNLOADED}
 fi
 
-do_tmux_build
+do_libevent_build
+clean_previous_install
 rm -rf ${BUILD_DIR}
 
 exit 0
