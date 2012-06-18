@@ -37,10 +37,15 @@ function do_tmux_build() {
     make install
 }
 
-while getopts ":p:" opt; do
+USE_CHECKOUT=
+
+while getopts ":p:c:" opt; do
     case $opt in
         p)
             PACKAGE=$OPTARG
+            ;;
+        c)
+            USE_CHECKOUT=Y
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
@@ -48,29 +53,35 @@ while getopts ":p:" opt; do
             ;;
         esac
 done
+OPTIND=0;
 
 DOWNLOADED=0
-if [ ${PACKAGE} ]; then
-    echo "Downloading package (${PACKAGE})"
-    rm -rf ${PROJECTS}/tmux.tar.gz
-    wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/tmux.tar.gz
-    DOWNLOADED=$?
-    if [ ${DOWNLOADED} -eq 0 ]; then
-        # save last package given from commandline
-        echo "PACKAGE=${PACKAGE}" > ${CONFIG}
-    fi
+if [[ -n ${USE_CHECKOUT} ]]; then
+    svn co ${REPOSITORY}/trunk ${CLONE_DIR}
 else
-    echo "Package not given"
-    exit 1
+    if [ ${PACKAGE} ]; then
+        echo "Downloading package (${PACKAGE})"
+        rm -rf ${PROJECTS}/tmux.tar.gz
+        wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/tmux.tar.gz
+        DOWNLOADED=$?
+        if [ ${DOWNLOADED} -eq 0 ]; then
+        # save last package given from commandline
+            echo "PACKAGE=${PACKAGE}" > ${CONFIG}
+        fi
+    else
+        echo "Package not given"
+        exit 1
+    fi
+
+    if [[ $DOWNLOADED -eq 0 ]]; then
+        rm -rf ${CLONE_DIR}
+        mkdir -p ${CLONE_DIR}
+        tar xzf ${PROJECTS}/tmux.tar.gz -C ${CLONE_DIR} --strip-components 1
+    else
+        exit ${DOWNLOADED}
+    fi
 fi
 
-if [[ $DOWNLOADED -eq 0 ]]; then
-    rm -rf ${CLONE_DIR}
-    mkdir -p ${CLONE_DIR}
-    tar xzf ${PROJECTS}/tmux.tar.gz -C ${CLONE_DIR} --strip-components 1
-else
-    exit ${DOWNLOADED}
-fi
 
 do_tmux_build
 rm -rf ${BUILD_DIR}
