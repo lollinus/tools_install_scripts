@@ -1,4 +1,5 @@
-#!/bin/env sh
+#!/bin/sh
+# vim: set ts=4 sts=4 sw=4 et: 
 
 set -e
 set -u
@@ -12,11 +13,12 @@ fi
 #
 # This script updates git working tree. Then builds and installs new release
 # 
-REPOSITORY="https://tmux.svn.sourceforge.net/svnroot/tmux"
+#REPOSITORY="https://tmux.svn.sourceforge.net/svnroot/tmux"
+REPOSITORY="git://tmux.git.sourceforge.net/gitroot/tmux/tmux"
 #PACKAGE="http://downloads.sourceforge.net/project/tmux/tmux/tmux-1.6/tmux-1.6.tar.gz"
 PROJECTS="${HOME}/projects"
 CLONE_DIR="${PROJECTS}/tmux"
-BUILD_DIR="${PROJECTS}/tmux"
+BUILD_DIR="${PROJECTS}/tmux_build"
 
 SHARED_INSTALL="${HOME}/install/share"
 # todo recognize linux type properly
@@ -39,7 +41,7 @@ function do_tmux_build() {
 
 USE_CHECKOUT=
 
-while getopts ":p:c:" opt; do
+while getopts ":p:c" opt; do
     case $opt in
         p)
             PACKAGE=$OPTARG
@@ -56,8 +58,17 @@ done
 OPTIND=0;
 
 DOWNLOADED=0
-if [[ -n ${USE_CHECKOUT} ]]; then
-    svn co ${REPOSITORY}/trunk ${CLONE_DIR}
+if [ x${USE_CHECKOUT} != x ]; then
+    if [ -d ${CLONE_DIR} ]; then
+       git --git-dir=${CLONE_DIR}/.git --work-tree=${CLONE_DIR} fetch origin 
+   else
+       git clone ${REPOSITORY} ${CLONE_DIR}
+    fi
+    git --git-dir=${CLONE_DIR}/.git --work-tree=${CLONE_DIR} reset --hard origin/master
+    (
+        cd ${CLONE_DIR}
+        ./autogen.sh
+    )
 else
     if [ ${PACKAGE} ]; then
         echo "Downloading package (${PACKAGE})"
@@ -87,3 +98,11 @@ do_tmux_build
 rm -rf ${BUILD_DIR}
 
 exit 0
+
+# Local Variables:
+# mode: shell-script
+# coding: unix
+# tab-width: 4
+# c-basic-offset: 4
+# indent-tabs-mode: nil
+# End:

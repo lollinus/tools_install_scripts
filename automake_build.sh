@@ -13,10 +13,10 @@ fi
 #
 # This script updates git working tree. Then builds and installs new release
 # 
-REPOSITORY="ssh://git@github.com/libevent/libevent.git"
+REPOSITORY="http://git.sv.gnu.org/r/autoconf.git"
 PROJECTS="${HOME}/projects"
-CLONE_DIR="${PROJECTS}/libevent"
-BUILD_DIR="${PROJECTS}/libevent_build"
+CLONE_DIR="${PROJECTS}/autoconf"
+BUILD_DIR="${PROJECTS}/autoconf_build"
 
 SHARED_INSTALL="${HOME}/install/share"
 # todo recognize linux type properly
@@ -30,13 +30,13 @@ function clean_dead_symlinks() {
 }
 
 #
-# remove previous install of libevent
+# remove previous install of autoconf
 #
 function clean_previous_install() {
-    find ${EXEC_INSTALL} -type f -name 'libevent*' -not -newer ${BUILD_DIR}/config.status -exec rm '{}' \;
+    find ${EXEC_INSTALL} -type f -name 'autoconf*' -not -newer ${BUILD_DIR}/config.status -exec rm '{}' \;
 }
 
-function do_libevent_build() {
+function do_autoconf_build() {
     mkdir -p ${BUILD_DIR}
     cd ${BUILD_DIR}
     ${CLONE_DIR}/configure --prefix=${SHARED_INSTALL} --exec-prefix=${EXEC_INSTALL} --enable-static
@@ -75,8 +75,8 @@ if [ x${USE_CHECKOUT} != x ]; then
 else
     if [ ${PACKAGE} ]; then
         echo "Downloading package (${PACKAGE})"
-        rm -rf ${PROJECTS}/libevent.tar.gz
-        wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/libevent.tar.gz
+        rm -rf ${PROJECTS}/autoconf.tar.xz
+        wget -t0 -c --no-check-certificate ${PACKAGE} -O ${PROJECTS}/autoconf.tar.xz
         DOWNLOADED=$?
         if [ ${DOWNLOADED} -eq 0 ]; then
             # save last package given from commandline
@@ -90,14 +90,14 @@ else
     if [[ $DOWNLOADED -eq 0 ]]; then
         rm -rf ${CLONE_DIR}
         mkdir -p ${CLONE_DIR}
-        tar xzf ${PROJECTS}/libevent.tar.gz -C ${CLONE_DIR} --strip-components 1
+        xz -dc ${PROJECTS}/autoconf.tar.xz | tar xf - -C ${CLONE_DIR} --strip-components 1
     else
         exit ${DOWNLOADED}
     fi
 fi
 
 
-do_libevent_build
+do_autoconf_build
 clean_previous_install
 rm -rf ${BUILD_DIR}
 
