@@ -1,0 +1,6 @@
+PKG_VERSION=7.4
+PACKAGE=vim-${PKG_VERSION}.tar.bz2
+CHECKSUM=ftp://ftp.vim.org/pub/vim/unix/MD5SUMS
+PKG_URI=ftp://ftp.vim.org/pub/vim/unix
+REPOSITORY="https://github.com/libevent/libevent.git"
+BUILD_DIR="${PROJECTS}/vim"     # configure does not work properly in out of source build
