@@ -1,0 +1,5 @@
+PKG_VERSION=1.8.4
+PKG_URI=https://git-core.googlecode.com/files
+PACKAGE=git-${PKG_VERSION}.tar.gz
+REPOSITORY=https://github.com/git/git.git
+BUILD_DIR="${PROJECTS}/git"     # configure does not work properly in out of source build

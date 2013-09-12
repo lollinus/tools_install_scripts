@@ -21,7 +21,6 @@ if [ -e ${CONFIG} ]; then
 fi
 
 function unpack() {
-	echo "Unpack" >&2
 	while getopts ":f:C:s:" opt "$@"; do
 		case $opt in
 			f)
@@ -45,7 +44,7 @@ function unpack() {
 	elif [[ $file =~ $tar_bzip2_re ]]; then
 		tar xjf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
 	elif [[ $file =~ $tar_xz_re ]]; then
-		tar xJf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
+		xz -dc $file | tar x ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
 	else
 		echo "WTF $file" >&2
 	fi
@@ -93,9 +92,7 @@ else
     if [ ${PACKAGE} ]; then
         echo "Downloading package (${PACKAGE})"
         rm -rf ${PROJECTS}/${PACKAGE}
-	set -vx
         curl ${http_proxy:+-x $http_proxy} -# -k -L -O ${PKG_URI}/${PACKAGE}
-	set +vx
         DOWNLOADED=$?
     else
         echo "Package not given"
