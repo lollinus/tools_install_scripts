@@ -8,68 +8,17 @@ This Repository contains scripts for building tools used by me
   machines, architecture and operating system, then there are couple
   assumptions where apps are installed.
 
-  Machine dependent files are installed within:
-#+BEGIN_SHELL
-  ${HOME}/install/<MACHINE DIR>/
-#+END_SHELL
+** Installation
+   - ROOT directory for packages installations is _${HOME}/tools/pkgs_
+   - Each package is configured and installed in its own independent directory
+     - packages directory are named as _<PKG>-<VERSION>-<OSRELEASE>-<HOSTTYPE>_
+       + PKG:: package name
+       + VERSION:: package version
+       + OSRELEASE:: easily distinguished OS on which package is targeted (eg. Tikanga for RHEL5, Santiago for RHEL6)
+       + HOSTTYPE:: architecture for which package is targeted (e.g. x86_64, i686)
 
-  Machine independent files are installed within:
-#+BEGIN_SHELL
-  ${HOME}/install/share/
-#+END_SHELL
-
-  Some tools are installed in tool specific directories read more in [[#Tools][tools]]
-
-  Some tools are installed from [[#Packages][packages]]
-
-# <<#Tools>>
-* Tools
-** Emacs
-   emacs_build.sh
-
-*** Emacs config
-
-    ssh://git@github.com/lollinus/my-emacs-config
-
-Dependencies:
-- autoconf-2.68
-- automake-1.11.2
-
-**** Packages
-
-***** AsciiDoc (adoc)
-ssh://git@github.com/matthewmccullough/adoc-mode
-sensorflo-emacs: http://sensorflo-emacs.googlecode.com/svn/trunk
-
-***** magit
-ssh://git@github.com/magit/matig.git
-
-
-** Git
-   git_update.sh
-
-** tmux
-
-   https://tmux.svn.sourceforge.net/svnroot/tmux
-
-Dependencies
-- libevent: uri
-
-** LLVM + Clang
-   http://llvm.org/git/llvm.git
-
-
-
-# <<#Packages>>
-** vim-7.3
-
-http://www.vim.org
-
-mercurial: https://vim.googlecode.com/hg/
-
- hg clone https://vim.googlecode.com/hg/ vim
-
-* Packages
-
-** SVN
+** Deployment
+   All apps are deployed by GNU stow tool.
+   All paths (PATH,LD_LIBRARY_PATH,MANPATH. etc.) are configured in runtime by shell login configuration (.bashrc).
+   Deployment path is configured as =${TOOLSPATH}= environment variable and is put in =${HOME}/tools/<OSRELEASE>-<HOSTTYPE>=.
 
