@@ -1,0 +1,3 @@
+PKG_VERSION=2.0
+PACKAGE=corkscrew-${PKG_VERSION}.tar.gz
+PKG_URI=http://www.agroman.net/corkscrew
