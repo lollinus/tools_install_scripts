@@ -12,7 +12,7 @@ readonly my_pkg=$(basename ${BASH_SOURCE[0]} .sh)
 # 
 PROJECTS="${HOME}/projects"
 CLONE_DIR="${PROJECTS}/$my_name"
-BUILD_DIR=${BUILD_DIR:-"${PROJECTS}/${my_name}-build"}
+BUILD_DIR=${BUILD_DIR:-${PROJECTS}/${my_name}-build}
 
 source $my_dir/ports-config.sh
 CONFIG=$my_dir/$(basename ${BASH_SOURCE[0]} .sh).rc
@@ -51,13 +51,18 @@ function unpack() {
 }
 
 USE_CHECKOUT=
-while getopts ":p:c" opt; do
+SKIP_DOWNLOAD=
+while getopts ":p:cs" opt; do
     case $opt in
         p)
             PACKAGE=$OPTARG
             ;;
         c)
             USE_CHECKOUT=Y
+            ;;
+        s)
+            echo "-s option" >&2
+            SKIP_DOWNLOAD=Y
             ;;
         \?)
             echo "Invalid option: -$OPTARG" >&2
@@ -90,10 +95,15 @@ if [[ -n $USE_CHECKOUT ]]; then
     (cd ${PROJECTS}/${my_pkg} && autoconf && automake) || { echo "Configuration failed" >&2; exit 1; }
 else
     if [ ${PACKAGE} ]; then
-        echo "Downloading package (${PACKAGE})"
-        rm -rf ${PROJECTS}/${PACKAGE}
-        curl ${http_proxy:+-x $http_proxy} -# -k -L -O ${PKG_URI}/${PACKAGE}
-        DOWNLOADED=$?
+        if [[ -z $SKIP_DOWNLOAD ]]; then
+            echo "Downloading package (${PACKAGE})"
+            rm -rf ${PROJECTS}/${PACKAGE}
+            curl ${http_proxy:+-x $http_proxy} -# -k -L -O ${PKG_URI}/${PACKAGE}
+            DOWNLOADED=$?
+        else
+            echo "Skipping download" >&2
+            DOWNLOADED=0
+        fi
     else
         echo "Package not given"
         exit 1
@@ -110,9 +120,8 @@ fi
 
 (
     cd ${PROJECTS}/${my_pkg}
-    [ -d ${BUILD_DIR} ] || { mkdir -p ${BUILD_DIR}; }
-    cd ${BUILD_DIR}
-    PKG_CONFIG_PATH="${TOOLSPATH}/lib/pkgconfig" ${CLONE_DIR}/configure --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
+    [ -d ${BUILD_DIR} ] || { echo "Creating build directory: ${BUILD_DIR}"; mkdir -p ${BUILD_DIR}; }
+    cd ${BUILD_DIR} && PKG_CONFIG_PATH=${TOOLSPATH}/lib/pkgconfig ${CLONE_DIR}/configure ${CONFIGURE_OPTS:+$CONFIGURE_OPTS} --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
     make
     make install
 )
