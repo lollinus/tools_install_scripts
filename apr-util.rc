@@ -1,0 +1,8 @@
+PKG_VERSION=1.5.3
+PKG_URI=http://mirror.netinch.com/pub/apache/apr
+PACKAGE=apr-util-${PKG_VERSION}.tar.bz2
+SIGNATURE=apr-util-${PKG_VERSION}.tar.bz2.asc 
+CHECKSUM=apr-util-${PKG_VERSION}.tar.bz2.md5
+REPOSITORY="http://svn.apache.org/repos/asf/apr/apr-util/trunk/"
+CONFIGURE_OPTS="--with-apr=$TOOLSPATH"
+LDFLAGS="-Wl,-rpath -Wl,$TOOLSPATH/lib -Wl,-l$TOOLSPATH/lib/libapr-1.so.0"

@@ -1,0 +1,4 @@
+PKG_VERSION=2.3.0
+PKG_URI=http://downloads.sourceforge.net/project/scons/scons-src/${PKG_VERSION}
+PACKAGE=scons-src-${PKG_VERSION}.tar.gz
+REPOSITORY_HG=https://bitbucket.org/scons/scons
