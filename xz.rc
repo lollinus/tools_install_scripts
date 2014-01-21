@@ -1,0 +1,7 @@
+PKG_VERSION=5.0.5
+PKG_URI=http://tukaani.org/xz
+PACKAGE=xz-${PKG_VERSION}.tar.bz2
+SIGNATURE=xz-${PKG_VERSION}.tar.bz2.sig 
+REPOSITORY_GIT="http://git.tukaani.org/xz.git"
+BUILD_DIR="${PROJECTS}/xz-build"
+

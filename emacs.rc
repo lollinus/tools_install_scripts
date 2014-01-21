@@ -1,5 +1,4 @@
 PKG_VERSION=24.3
 PKG_URI=http://mirrors.axint.net/repos/gnu.org/emacs/
 PACKAGE=emacs-${PKG_VERSION}.tar.xz
-CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x11-toolkit=lucid"
-
+CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x-toolkit=lucid"
