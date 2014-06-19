@@ -1,9 +1,10 @@
-PKG_VERSION=1.8.5
+PKG_VERSION=1.8.8
 PACKAGE=subversion-${PKG_VERSION}.tar.bz2
+SIGNATURE=${PACKAGE}.asc
 #CHECKSUM=ftp://ftp.vim.org/pub/vim/unix/MD5SUMS
 CHECKSUM_SHA1=d21de7daf37d9dd1cb0f777e999a529b96f83082
 PKG_URI=http://mirror.netinch.com/pub/apache/subversion
-REPOSITORY="http://svn.apache.org/repos/asf/subversion/trunk"
+REPOSITORY_SVN="http://svn.apache.org/repos/asf/subversion/trunk"
 #BUILD_DIR="${PROJECTS}/svn"     # configure does not work properly in out of source build
 
 

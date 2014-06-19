@@ -2,5 +2,5 @@ PKG_VERSION=2.2.0
 PKG_URI=http://ftp.gnu.org/gnu/stow
 PACKAGE=stow-${PKG_VERSION}.tar.bz2
 SIGNATURE=${PACKAGE}.sig
-REPOSITORY="http://git.savannah.gnu.org/r/stow.git"
+REPOSITORY_GIT="http://git.savannah.gnu.org/r/stow.git"
 

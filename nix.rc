@@ -1,0 +1,3 @@
+PKG_VERSION=1.5.3
+PACKAGE=nix-${PKG_VERSION}.tar.xz
+PKG_URI=http://nixos.org/releases/nix/nix-${PKG_VERSION}

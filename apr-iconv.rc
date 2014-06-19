@@ -3,4 +3,4 @@ PKG_URI=http://www.nic.funet.fi/pub/mirrors/apache.org/apr
 PACKAGE=apr-iconv-${PKG_VERSION}.tar.bz2
 SIGNATURE=apr-iconv-${PKG_VERSION}.tar.bz2.asc 
 CHECKSUM=apr-iconv-${PKG_VERSION}.tar.bz2.md5
-REPOSITORY="http://svn.apache.org/repos/asf/apr/apr-iconv/trunk/"
+REPOSITORY_SVN="http://svn.apache.org/repos/asf/apr/apr-iconv/trunk/"

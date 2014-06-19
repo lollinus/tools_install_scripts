@@ -3,7 +3,7 @@ PKG_URI=http://mirror.netinch.com/pub/apache/apr
 PACKAGE=apr-${PKG_VERSION}.tar.bz2
 SIGNATURE=apr-${PKG_VERSION}.tar.bz2.asc 
 CHECKSUM=apr-${PKG_VERSION}.tar.bz2.md5
-REPOSITORY="http://svn.apache.org/repos/asf/apr/apr/trunk"
+REPOSITORY_SVN="http://svn.apache.org/repos/asf/apr/apr/trunk"
 BUILD_DIR="${PROJECTS}/apr"     # configure does not work properly in out of source build
 CONFIGURE_OPTS="--with-sysroot=$TOOLSPATH"
 

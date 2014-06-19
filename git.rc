@@ -3,5 +3,5 @@ PKG_URI=https://git-core.googlecode.com/files
 PACKAGE=git-${PKG_VERSION}.tar.gz
 #PKG_URI=https://github.com/git/git/archive
 #PACKAGE=v${PKG_VERSION}.tar.gz
-REPOSITORY=https://github.com/git/git.git
+REPOSITORY_GIT=https://github.com/git/git.git
 BUILD_DIR="${PROJECTS}/git"     # configure does not work properly in out of source build

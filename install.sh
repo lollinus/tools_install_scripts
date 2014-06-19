@@ -73,12 +73,14 @@ done
 OPTIND=0;
 
 DOWNLOADED=0
-if [[ -n $USE_CHECKOUT ]]; then
+
+function fetch_git() {
+    echo "Fetch from GIT repository"
     # check if clone dir exists
     if [ ! -e ${CLONE_DIR} ]; then
         echo "${CLONE_DIR} not exist -> new clone"
         mkdir -p ${PROJECTS}
-        git clone ${REPOSITORY} ${CLONE_DIR}
+        git clone ${REPOSITORY_GIT} ${CLONE_DIR}
     elif [ ! -d ${CLONE_DIR} ]; then
         # @TODO handle properly when CLONE_DIR exists but is not an directory
         echo "not a directory ${CLONE_DIR}"
@@ -93,7 +95,63 @@ if [[ -n $USE_CHECKOUT ]]; then
         #set +xve
     fi
     (cd ${PROJECTS}/${my_pkg} && autoconf && automake) || { echo "Configuration failed" >&2; exit 1; }
-else
+}
+
+function fetch_svn() {
+    echo "Fetch SVN repository"
+}
+
+function fetch_bzr() {
+    echo "Bazaar not supported yet"
+    exit 1
+}
+
+function fetch_hg() {
+    echo "Mercurial not supported yet"
+    exit 1
+}
+
+function fetch_repository() {
+    echo "Fetch source from repository"
+    if [[ -n "${REPOSITORY_GIT:-}" ]]; then
+        fetch_git
+    elif [[ -n "${REPOSITORY_SVN:-}" ]]; then
+        fetch_svn
+    elif [[ -n "${REPOSITORY_BZR:-}" ]]; then
+        fetch_bzr
+    elif [[ -n "${REPOSITORY_HG:-}" ]]; then
+        fetch_hg
+    else
+        echo "Repository not configured"
+        exit 1
+    fi
+}
+
+function verify_sha1() {
+    echo "Verifying SHA1"
+}
+
+function verify_md5() {
+    echo "Verifying MD5"
+}
+
+function verify_sha256() {
+    echo "Verifying SHA256"
+}
+
+function verify() {
+    if [[ -n "${CHECKSUM_SHA1:-}" ]]; then
+        verify_sha1
+    fi
+    if [[ -n "${CHECKSUM_MD5:-}" ]]; then
+        verify_md5
+    fi
+    if [[ -n "${CHECKSUM_SHA256:-}" ]]; then
+        verify_sha256
+    fi
+}
+
+function fetch_pkg() {
     if [ ${PACKAGE} ]; then
         if [[ -z $SKIP_DOWNLOAD ]]; then
             echo "Downloading package (${PACKAGE})"
@@ -116,14 +174,44 @@ else
     else
         exit ${DOWNLOADED}
     fi
-fi
+}
 
-(
-    cd ${PROJECTS}/${my_pkg}
-    [ -d ${BUILD_DIR} ] || { echo "Creating build directory: ${BUILD_DIR}"; mkdir -p ${BUILD_DIR}; }
-    cd ${BUILD_DIR} && PKG_CONFIG_PATH=${TOOLSPATH}/lib/pkgconfig ${CLONE_DIR}/configure ${CONFIGURE_OPTS:+$CONFIGURE_OPTS} --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
-    make
-    make install
-)
+function fetch() {
+    if [[ -n "${USE_CHECKOUT:-}" ]]; then
+        fetch_repository
+    else
+        fetch_pkg
+    fi
+}
+
+function configure_autoconf() {
+    (
+        cd ${PROJECTS}/${my_pkg}
+        [ -d ${BUILD_DIR} ] || { echo "Creating build directory: ${BUILD_DIR}"; mkdir -p ${BUILD_DIR}; }
+        cd ${BUILD_DIR} && PKG_CONFIG_PATH=${TOOLSPATH}/lib/pkgconfig ${CLONE_DIR}/configure ${CONFIGURE_OPTS:+$CONFIGURE_OPTS} --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
+        make
+        make install
+    )
+}
+
+function configure_scons() {
+    echo "Configure using scons tool"
+}
+
+function configure_cmake() {
+    echo "Configure using cmake"
+}
+
+function configure() {
+    configure_autoconf
+}
+
+
+################################
+# MAIN code for install script #
+################################
+
+fetch
+configure
 
 exit 0
