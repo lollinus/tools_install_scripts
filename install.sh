@@ -40,11 +40,11 @@ function unpack() {
 	local readonly tar_bzip2_re="\.[tT]([aA][rR]\.)?[bB][zZ]2?$"
 	local readonly tar_xz_re="\.[tT]([aA][rR]\.)?[xX][zZ]$"
 	if [[ $file =~ $tar_gzip_re ]]; then
-		tar xvf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
+		tar xvf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components} && touch $path.unpacked
 	elif [[ $file =~ $tar_bzip2_re ]]; then
-		tar xjf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
+		tar xjf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components} && touch $path.unpacked
 	elif [[ $file =~ $tar_xz_re ]]; then
-		xz -dc $file | tar x ${path:+-C $path} ${strip_components:+--strip-components=$strip_components}
+		xz -dc $file | tar x ${path:+-C $path} ${strip_components:+--strip-components=$strip_components} && touch $path.unpacked
 	else
 		echo "WTF $file" >&2
 	fi
@@ -121,6 +121,9 @@ fi
 (
     cd ${PROJECTS}/${my_pkg}
     [ -d ${BUILD_DIR} ] || { echo "Creating build directory: ${BUILD_DIR}"; mkdir -p ${BUILD_DIR}; }
+	# if there is no configure but autoconf (configure.sc) then run it first
+	[ ! -f ${CLONE_DIR}/configure ] && [ -f ${CLONE_DIR}/configure.ac ] && (cd ${CLONE_DIR}; autoconf);
+	# run configure
     cd ${BUILD_DIR} && PKG_CONFIG_PATH=${TOOLSPATH}/lib/pkgconfig ${CLONE_DIR}/configure ${CONFIGURE_OPTS:+$CONFIGURE_OPTS} --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
     make
     make install
