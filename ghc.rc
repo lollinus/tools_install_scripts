@@ -1,0 +1,7 @@
+# GHC build requires proper previous installation of GHC
+# I need to think on proper handling of that situation
+
+PKG_VERSION=7.4.2
+PACKAGE=ghc-${PKG_VERSION}-src.tar.bz2
+PKG_URI=http://www.haskell.org/ghc/dist/${PKG_VERSION}/
+BUILD_DIR="${PROJECTS}/ghc"     # configure does not work properly in out of source build
