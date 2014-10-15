@@ -125,7 +125,7 @@ fi
 	[ ! -f ${CLONE_DIR}/configure ] && [ -f ${CLONE_DIR}/configure.ac ] && (cd ${CLONE_DIR}; autoconf);
 	# run configure
     cd ${BUILD_DIR} && PKG_CONFIG_PATH=${TOOLSPATH}/lib/pkgconfig ${CLONE_DIR}/configure ${CONFIGURE_OPTS:+$CONFIGURE_OPTS} --prefix=${INSTALL_ROOT}/${my_pkg}-${PKG_VERSION}-${SYSTEM_RELEASE}-${HOSTTYPE}
-    make
+    LD_RUN_PATH=${TOOLSPATH}/lib make
     make install
 )
 
