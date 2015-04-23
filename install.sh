@@ -10,7 +10,7 @@ readonly my_pkg=$(basename ${BASH_SOURCE[0]} .sh)
 #
 # This script updates git working tree. Then builds and installs new release
 # 
-PROJECTS="${HOME}/projects"
+PROJECTS=${PROJECTS:-${HOME}/projects}
 CLONE_DIR="${PROJECTS}/$my_name"
 BUILD_DIR=${BUILD_DIR:-${PROJECTS}/${my_name}-build}
 
@@ -44,6 +44,7 @@ function unpack() {
 	elif [[ $file =~ $tar_bzip2_re ]]; then
 		tar xjf $file ${path:+-C $path} ${strip_components:+--strip-components=$strip_components} && touch $path.unpacked
 	elif [[ $file =~ $tar_xz_re ]]; then
+		echo "Unpacking tar XZ"
 		xz -dc $file | tar x ${path:+-C $path} ${strip_components:+--strip-components=$strip_components} && touch $path.unpacked
 	else
 		echo "WTF $file" >&2
@@ -98,7 +99,7 @@ else
         if [[ -z $SKIP_DOWNLOAD ]]; then
             echo "Downloading package (${PACKAGE})"
             rm -rf ${PROJECTS}/${PACKAGE}
-            curl ${http_proxy:+-x $http_proxy} -# -k -L -O ${PKG_URI}/${PACKAGE}
+            curl ${http_proxy:+-x $http_proxy} -# -k -L -o ${PROJECTS}/${PACKAGE} ${PKG_URI}/${PACKAGE}
             DOWNLOADED=$?
         else
             echo "Skipping download" >&2
