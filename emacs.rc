@@ -1,5 +1,6 @@
-PKG_VERSION=24.4
+PKG_VERSION=24.5
 PKG_URI=http://www.nic.funet.fi/pub/gnu/ftp.gnu.org/pub/gnu/emacs/
 PACKAGE=emacs-${PKG_VERSION}.tar.xz
-CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x-toolkit=lucid --without-gsettigs"
+#CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x-toolkit=lucid --without-gsettigs"
+CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x-toolkit=lucid"
 
