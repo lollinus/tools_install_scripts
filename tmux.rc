@@ -1,4 +1,4 @@
-PKG_VERSION=1.9
-PKG_URI=http://downloads.sourceforge.net/project/tmux/tmux/tmux-${PKG_VERSION}
-PACKAGE=tmux-${PKG_VERSION}a.tar.gz
-REPOSITORY="http://git.code.sf.net/p/tmux/tmux-code"
+PKG_VERSION=2.0
+PKG_URI=http://github.com/tmux/tmux/releases/download/${PKG_VERSION}
+PACKAGE=tmux-${PKG_VERSION}.tar.gz
+REPOSITORY="https://github.com/tmux/tmux.git"
