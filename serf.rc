@@ -1,0 +1,5 @@
+PKG_VERSION=1.3.9
+PKG_URI=https://www.apache.org/dist/serf/
+PACKAGE=serf-${PKG_VERSION}.tar.bz2
+#REPOSITORY=https://github.com/git/git.git
+#BUILD_DIR="${PROJECTS}/svn"     # configure does not work properly in out of source build

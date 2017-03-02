@@ -1,7 +1,8 @@
-PKG_VERSION=2.10.0
+PKG_VERSION=2.12.0
 #PKG_URI=https://git-core.googlecode.com/files
-#PACKAGE=git-${PKG_VERSION}.tar.gz
-PKG_URI=https://github.com/git/git/archive
-PACKAGE=v${PKG_VERSION}.tar.xz
+PKG_URI=https://www.kernel.org/pub/software/scm/git
+PACKAGE=git-${PKG_VERSION}.tar.gz
+#PKG_URI=https://github.com/git/git/archive
+#PACKAGE=v${PKG_VERSION}.tar.xz
 REPOSITORY=https://github.com/git/git.git
 BUILD_DIR="${PROJECTS}/git"     # configure does not work properly in out of source build

@@ -1,4 +1,4 @@
-PKG_VERSION=6.5.4
+PKG_VERSION=6.5.6
 PKG_URI=http://tamacom.com/global/
 PACKAGE=global-${PKG_VERSION}.tar.gz
 #CONFIGURE_OPTS="--with-jpeg=no --with-png=no --with-gif=no --with-tiff=no --with-x-toolkit=lucid --without-gsettigs"

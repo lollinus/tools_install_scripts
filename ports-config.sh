@@ -4,10 +4,7 @@
 source_level=${#BASH_SOURCE[@]}
 test $source_level -eq 1 && { echo "Error: this file should be sourced by other build scripts" >&2; exit 1; }
 
-if [[ -f /etc/lsb-release ]]; then
-	source /etc/lsb-release
-	export SYSTEM_RELEASE=${DISTRIB_ID}-${DISTRIB_RELEASE}
-elif [[ -f /etc/redhat-release ]]; then
+if [[ -f /etc/redhat-release ]]; then
 	redhat_release_re="\(([^\)]+)\)"
 	if [[ $(cat /etc/redhat-release) =~ $redhat_release_re ]]; then
 		export REDHAT_RELEASE=${BASH_REMATCH[1]}

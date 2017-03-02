@@ -1,0 +1,5 @@
+PKG_VERSION=1.9.4
+PKG_URI=http://www-eu.apache.org/dist/subversion/
+PACKAGE=subversion-${PKG_VERSION}.tar.bz2
+#REPOSITORY=https://github.com/git/git.git
+#BUILD_DIR="${PROJECTS}/svn"     # configure does not work properly in out of source build
