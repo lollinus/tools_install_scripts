@@ -1,1 +1,4 @@
-PACKAGE="http://ftp.gnu.org/gnu/autoconf/autoconf-latest.tar.xz"
+PKG_VERSION=2.69
+PKG_URI=http://ftp.gnu.org/gnu/autoconf/
+PACKAGE=autoconf-${PKG_VERSION}.tar.xz
+#PACKAGE="http://ftp.gnu.org/gnu/autoconf/autoconf-latest.tar.xz"

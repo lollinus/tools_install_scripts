@@ -1,4 +1,4 @@
-PKG_VERSION=2.0.22-stable
+PKG_VERSION=2.1.8-stable
 PKG_URI=https://github.com/libevent/libevent/releases/download/release-${PKG_VERSION}
 PACKAGE=libevent-${PKG_VERSION}.tar.gz
 SIGNATURE=libevent-${PKG_VERSION}.tar.gz.asc 
